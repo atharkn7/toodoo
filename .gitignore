@@ -1,0 +1,14 @@
+# Python bytecode and cache
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+virt/
+
+# Flask instance folder (for runtime config, uploads, etc.)
+instance/
+
+# Database files (if using SQLite locally)
+*.sqlite3
+*.db
