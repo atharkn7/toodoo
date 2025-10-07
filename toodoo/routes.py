@@ -11,7 +11,7 @@ main_bp = Blueprint('main', __name__)
 def index():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     
     return render_template('auth/login.html', form=form)
 
@@ -20,6 +20,6 @@ def index():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     
     return render_template('auth/register.html', form=form)
