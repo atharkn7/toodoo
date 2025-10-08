@@ -1,6 +1,20 @@
 {% extends "auth/home.html" %}
 
 {% block login %}
+
+<!-- ALERT MESSAGE -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endwith %}
+
+<!-- HOME Content-->
 <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
     <div class="row w-100 rounded-4 shadow-lg bg-light overflow-hidden" style="max-width: 1200px;">
 
@@ -26,7 +40,7 @@
                 </div>
                 {{ form.login(class="btn btn-secondary w-100 mb-3") }}
                 <div class="text-center">
-                    <a href="{{ url_for('main.register') }}" class="text-decoration-none">
+                    <a href="{{ url_for('main.add_user') }}" class="text-decoration-none">
                         Don’t have an account? Register
                     </a>
                 </div>

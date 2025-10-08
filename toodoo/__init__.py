@@ -1,11 +1,27 @@
 from flask import Flask
-from .routes import main_bp
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()   # create db object but don’t bind yet
+# migrate = Migrate()
 
-# app config
-app = Flask(__name__)
-# App Configurations
-app.config['SECRET_KEY'] = 'pass'   # Secret Key
+def create_app():
+    """
+    Application factory function.
+    Creates and configures the Flask app instance,
+    initializes the database and migration extensions,
+    and registers blueprints.s
+    """
+    app = Flask(__name__)
 
-# Gets all routes from main_bp
-app.register_blueprint(main_bp)
+    # Configure app
+    app.config['SECRET_KEY'] = 'secret_key'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yourdb.db'
+
+    # Initialize db *after* app is created
+    db.init_app(app)
+
+    # Import blueprints after db is ready
+    from .routes import main_bp
+    app.register_blueprint(main_bp)
+
+    return app
