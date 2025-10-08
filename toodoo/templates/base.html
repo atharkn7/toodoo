@@ -21,10 +21,25 @@
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="row">
 
-    {% block content %}
-    {% endblock %}
+            <!-- TO DO REMOVED NAV BAR -->
+            <div class="col-md-2 d-flex align-items-center">
+                <dl>
+                    <dt> <a href="{{ url_for('main.index') }}">Home</a></dt>
+                    <hr>
+                    <dt> <a href="#">All Users (Admin)</a></dt>
+                </dl>
+            </div>
 
+            <!-- CONTENT -->
+            <div class="col-md-10">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
