@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- ALERT MESSAGE -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endwith %}
+
+<!-- USER DASHBOARD-->
+<div class="container p-4 shadow-lg">
+    <h3>Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</h3>
+    <hr>
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">{{ current_user.id }}</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">{{ current_user.email }}</dd>
+
+        <dt class="col-sm-3">Password</dt>
+        <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
+
+        <dt class="col-sm-3">Date Joined</dt>
+        <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
+            %Y') }}</dd>
+    </dl>
+    <div class="text-end">
+        <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm">Logout</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
