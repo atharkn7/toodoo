@@ -17,7 +17,7 @@
                 <li class="list-group-item"><strong>Email:</strong> <em>{{user.email}}</em></li>
                 <li class="list-group-item"><strong>Date Added:</strong> <em>{{user.date_added.strftime('%B %d,
                         %Y')}}</em></li>
-                <li class="list-group-item"><strong>Password:</strong> <em>{{user.password}}</em></li>
+                <li class="list-group-item"><strong>Password:</strong> <em>{{user.password_hash}}</em></li>
             </ul>
         </div>
         {% endfor %}

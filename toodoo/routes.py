@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from toodoo import db
 from .forms import LoginForm, RegisterForm
-from toodoo.models import Users
+from .models import Users
 
 # Creates the main blueprint that gets sent to init
 main_bp = Blueprint('main', __name__)
