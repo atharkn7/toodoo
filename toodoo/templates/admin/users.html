@@ -11,7 +11,7 @@
         {% for user in users %}
         <div class="card" style="width: 18rem;">
             <div class="card-header text-center">
-                {{user.name}}
+                {{user.first_name}} {{user.last_name}}
             </div>
             <ul class="list-group list-group-flush ps-2">
                 <li class="list-group-item"><strong>Email:</strong> <em>{{user.email}}</em></li>
@@ -19,7 +19,14 @@
                         %Y')}}</em></li>
                 <li class="list-group-item"><strong>Password:</strong> <em>{{user.password_hash}}</em></li>
             </ul>
+
+            <!-- DELETE ROUTE -->
+            <form action="{{ url_for('main.delete_user', id=user.id) }}" method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.delete(class="btn btn-outline-danger btn-sm align-self-center", style="width: 30%;") }}
+            </form>
         </div>
+
         {% endfor %}
     </div>
 

@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from toodoo import db
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, DeleteForm
 from .models import Users
 
 # Creates the main blueprint that gets sent to init
@@ -20,7 +20,7 @@ def index():
     return render_template('auth/login.html', form=form)
 
 
-@main_bp.route('/add_user', methods=["GET", "POST"])
+@main_bp.route('/user/add', methods=["GET", "POST"])
 def add_user():
     form = RegisterForm()
 
@@ -31,7 +31,8 @@ def add_user():
         
         if user == None:
             # Adding to db if no users exists
-            user = Users(name=form.name.data, 
+            user = Users(first_name=form.first_name.data,
+                         last_name=form.last_name.data, 
                          email=form.email.data,
                          password_hash=form.password.data)
             
@@ -59,4 +60,25 @@ def admin_dashboard():
 @main_bp.route('/admin/users')
 def admin_users():
     users = Users.query.order_by(Users.date_added)
-    return render_template('admin/users.html', users=users)
+    form = DeleteForm()
+    return render_template('admin/users.html', users=users, form=form)
+
+
+""" USER MANAGEMENT """
+@main_bp.route('/users/delete/<int:id>', methods=["POST"])
+def delete_user(id):        
+    user = Users.query.filter_by(id=id).first()
+
+    if not user:
+        flash('No user found!')
+    else:
+        try:
+            db.session.delete(user)
+            db.session.commit()
+            flash('User deleted successfully!')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'User deletion failed: {str(e)}')
+
+    #TODO: Add logic to check user role and route accordingly
+    return redirect(url_for('main.index'))
