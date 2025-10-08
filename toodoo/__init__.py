@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,9 +14,12 @@ def create_app():
     """
     app = Flask(__name__)
 
+    # Make sure instance folder exists
+    # os.makedirs(app.instance_path, exist_ok=True)
+
     # Configure app
     app.config['SECRET_KEY'] = 'secret_key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yourdb.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toodoo.db'
 
     # Initialize db *after* app is created
     db.init_app(app)

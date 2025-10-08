@@ -13,7 +13,9 @@ class Users(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     profile_pic = db.Column(db.String(), nullable=True)
 
-    
+
     # Password hashing
 
     # Repr of objects
+    def __repr__(self):
+        return '<Name %r>' % self.name

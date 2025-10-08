@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from toodoo import db
 from .forms import LoginForm, RegisterForm
-from .models import Users
+from toodoo.models import Users
 
 # Creates the main blueprint that gets sent to init
 main_bp = Blueprint('main', __name__)
@@ -33,7 +33,7 @@ def add_user():
             # Adding to db if no users exists
             user = Users(name=form.name.data, 
                          email=form.email.data,
-                         password=form.password.data)
+                         password_hash=form.password.data)
             
             # Commit to db
             db.session.add(user)
@@ -41,14 +41,22 @@ def add_user():
             
             # Flash and redirect
             flash('User added successfully!')
-            return redirect(url_for('main.index'))  
+            return redirect(url_for('main.index'))
+        
+        else:
+            flash('User already registered!')
+            return redirect(url_for('main.index'))
     
     # GET request
     return render_template('auth/register.html', form=form)
 
 
 """ ADMIN ROUTES """
-main_bp.route('/admin/dashboard')
+@main_bp.route('/admin/dashboard')
 def admin_dashboard():
+    return render_template('admin/dashboard.html')
+
+@main_bp.route('/admin/users')
+def admin_users():
     users = Users.query.order_by(Users.date_added)
-    return render_template('admin/dashboard.html', users=users)
+    return render_template('admin/users.html', users=users)

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container p-4 shadow-lg">
+    <h3>ADMIN PAGE</h3>
+    <hr>
+
+    <!-- Flex container for cards -->
+    <div class="d-flex flex-wrap gap-3">
+        {% for user in users %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-header text-center">
+                {{user.name}}
+            </div>
+            <ul class="list-group list-group-flush ps-2">
+                <li class="list-group-item"><strong>Email:</strong> <em>{{user.email}}</em></li>
+                <li class="list-group-item"><strong>Date Added:</strong> <em>{{user.date_added.strftime('%B %d,
+                        %Y')}}</em></li>
+                <li class="list-group-item"><strong>Password:</strong> <em>{{user.password}}</em></li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+    <a class="btn btn-secondary" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
+</div>
+
+
+{% endblock %}
