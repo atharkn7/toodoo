@@ -21,45 +21,8 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-
-            <!-- TO DO REMOVED NAV BAR -->
-
-            <div class="col-2 bg-dark bg-gradient min-vh-100 overflow-hidden">
-                <dl>
-                    <h4 class="text-warning">Navbar (Temp)</h4>
-                    <hr class="text-white">
-
-                    <!-- Public Routes -->
-                    {% if not current_user.is_authenticated %}
-                    <dt> <a href="{{ url_for('main.index') }}">Home</a></dt>
-                    <hr class="text-white">
-                    {% endif %}
-
-                    <!-- Logged in Routes -->
-                    {% if current_user.is_authenticated %}
-                    <dt> <a href="{{ url_for('main.user_dashboard') }}">Dashboard</a></dt>
-                    <hr class="text-white">
-
-
-                    <!-- Admin Routes -->
-                    {% if current_user.id == 1 %}
-                    <dt> <a href="{{ url_for('main.admin_dashboard') }}">Admin</a></dt>
-                    <hr class="text-white">
-                    {% endif %}
-
-                    {% endif %}
-                </dl>
-            </div>
-
-            <!-- CONTENT -->
-            <div class="col-10 overflow-hidden">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-    </div>
+    {% block content %}
+    {% endblock %}
 </body>
 
 </html>

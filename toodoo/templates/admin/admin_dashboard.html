@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "users/user_dashboard.html" %}
 
 {% block content %}
 
 <div class="container p-4 shadow-lg">
     <h3>ADMIN PAGE</h3>
     <hr>
-    <a class="btn btn-secondary" href="{{ url_for('main.admin_users') }}">View all Users</a>
+    <p>Do admin stuff here...</p>
+    <a class="btn btn-secondary" href="{{ url_for('main.admin_manage_users') }}">View all Users</a>
 </div>
 
 

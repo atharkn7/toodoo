@@ -80,7 +80,7 @@ def admin_dashboard():
 # Admin - Dashboard
 @main_bp.route('/admin/users')
 @login_required
-def admin_users():
+def admin_manage_users():
     users = Users.query.order_by(Users.date_added)
     form = DeleteForm()
     return render_template('admin/users.html', users=users, form=form)
@@ -108,6 +108,12 @@ def delete_user(id):
 
 
 """ USER MANAGEMENT """
+# Login landing route
+@main_bp.route('/user')
+@login_required
+def user_login():
+    return render_template('users/user_dashboard.html')
+
 # Dashboard
 @main_bp.route('/user/dashboard')
 @login_required
