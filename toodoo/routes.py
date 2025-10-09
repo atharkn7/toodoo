@@ -135,4 +135,6 @@ def user_profile():
 @main_bp.route('/user/edit')
 @login_required
 def user_edit():
-    return render_template('/users/user_edit.html')
+    form = RegisterForm()
+    #TODO: Add update logic
+    return render_template('/users/user_edit.html', form=form)

@@ -1,5 +1,33 @@
 {% extends "users/user_dashboard.html" %}
 
-{% block user_content %}
-<h1>EDIT PAGE</h1>
+{% block edit_user %}
+<div class="px-3 pt-2 mt-5 d-flex flex-column justify-content-center border rounded-2 bg-light">
+
+    <form method="POST" class="w-100">
+        {{ form.csrf_token }}
+
+        <div class="row">
+            <div class="col-md-6 mb-3 text-start">
+                {{ form.first_name.label(class="form-label") }}
+                {{ form.first_name(class="form-control", value=current_user.first_name) }}
+            </div>
+            <div class="col-md-6 mb-3 text-start">
+                {{ form.last_name.label(class="form-label") }}
+                {{ form.last_name(class="form-control", value=current_user.last_name) }}
+            </div>
+        </div>
+        <div class="mb-3 text-start">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", value=current_user.email) }}
+        </div>
+
+        {{ form.register(class="btn btn-outline-success btn-sm", value="Save", style="width: 65px") }}
+        <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
+            style="width: 65px">Cancel</a>
+
+        <hr>
+        <a href="#" class="btn btn-outline-secondary btn-sm">Change Password</a>
+
+    </form>
+</div>
 {% endblock %}
