@@ -68,7 +68,7 @@ def add_user():
 
 
 """ ERROR ROUTES """
-#TODO
+# Moved inside factory function
 
 
 """ ADMIN ROUTES """

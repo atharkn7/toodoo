@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center" style="height: 70vh;">
+    <h1 class="display-1 text-danger">500</h1>
+    <p class="lead">Internal Server Error</p>
+    <p class="text-muted">Something went wrong try again.</p>
+    <a href="{{ url_for('main.index') }}" class="btn btn-primary mt-3">Return Home</a>
+</div>
+{% endblock %}

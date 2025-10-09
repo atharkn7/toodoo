@@ -30,10 +30,23 @@
                 <dl>
                     <h4 class="text-warning">Navbar (Temp)</h4>
                     <hr class="text-white">
+
+                    <!-- Public Routes -->
+                    {% if not current_user.is_authenticated %}
                     <dt> <a href="{{ url_for('main.index') }}">Home</a></dt>
                     <hr class="text-white">
+                    {% endif %}
+
+                    <!-- Logged in Routes -->
+                    {% if current_user.is_authenticated %}
+
+                    <!-- Admin Routes -->
+                    {% if current_user.id == 1 %}
                     <dt> <a href="{{ url_for('main.admin_dashboard') }}">Admin</a></dt>
                     <hr class="text-white">
+                    {% endif %}
+
+                    {% endif %}
                 </dl>
             </div>
 
