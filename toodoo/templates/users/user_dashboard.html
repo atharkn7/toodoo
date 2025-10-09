@@ -15,34 +15,40 @@
 {% endwith %}
 
 <!-- USER DASHBOARD-->
-<div class="container pt-4 pb-2 shadow-lg rounded-4">
-    <h3>Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</h3>
-    <hr>
-    <div class="row d-flex align-items-center">
-        <div class="col-md-3 d-flex justify-content-center">
-            <img src="{{ url_for('static', filename='images/default_pic.png') }}" class="img-thumbnail rounded-circle"
-                alt="Default Profile Pic" style="max-width: 250px;">
+<div class="container pt-3">
+    <div class="row d-flex align-items-start">
+
+        <!-- Left Section -->
+        <div class="col-md-3 d-flex justify-content-center flex-column align-items-center">
+            <div>
+                <img src="{{ url_for('static', filename='images/default_pic.png') }}"
+                    class="img-thumbnail rounded-circle" alt="Default Profile Pic" style="max-width: 250px;">
+                <hr>
+            </div>
+            <div>
+                <h4>{{ current_user.first_name }} {{ current_user.last_name }}</h4>
+            </div>
+            <br>
+            <div class="w-100">
+                <a href="{{ url_for('main.user_edit') }}" class="btn btn-outline-secondary btn-sm w-100">Update
+                    Profile</a>
+            </div>
+
         </div>
+        <!-- Right Section -->
         <div class="col-md-9">
-            <dl class="row">
-                <dt class="col-sm-3">ID</dt>
-                <dd class="col-sm-9">{{ current_user.id }}</dd>
 
-                <dt class="col-sm-3">Email</dt>
-                <dd class="col-sm-9">{{ current_user.email }}</dd>
+            <!-- Logout Button -->
+            <div class="text-end">
+                <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm me-2 mb-2">Logout</a>
+            </div>
 
-                <dt class="col-sm-3">Password</dt>
-                <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
+            <!-- Dynamic Content -->
+            {% block user_content %}
+            {% endblock %}
 
-                <dt class="col-sm-3">Date Joined</dt>
-                <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
-                    %Y') }}</dd>
-            </dl>
         </div>
-    </div>
 
-    <div class="text-end">
-        <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm me-2 mb-2">Logout</a>
     </div>
 </div>
 

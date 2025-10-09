@@ -29,7 +29,13 @@
                 <!-- Logged in Routes -->
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.user_dashboard') }}">Profile</a>
+                    <a class="nav-link" href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.user_profile') }}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.user_edit') }}">Update Profile</a>
                 </li>
                 {% endif %}
 

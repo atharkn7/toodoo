@@ -67,9 +67,6 @@ def add_user():
     return render_template('auth/register.html', form=form)
 
 
-""" ERROR ROUTES """
-# Moved inside factory function
-
 
 """ ADMIN ROUTES """
 @main_bp.route('/admin/dashboard')
@@ -128,5 +125,14 @@ def user_logout():
     flash('Logged out Successfully!')
     return redirect(url_for('main.index'))
 
+#TODO: Profile View Route
+@main_bp.route('/user/profile')
+@login_required
+def user_profile():
+    return render_template('/users/user_profile.html')
 
 #TODO: Edit User Route
+@main_bp.route('/user/edit')
+@login_required
+def user_edit():
+    return render_template('/users/user_edit.html')
