@@ -14,27 +14,35 @@
 {% endwith %}
 
 <!-- USER DASHBOARD-->
-<div class="container p-4 shadow-lg">
+<div class="container pt-4 pb-2 shadow-lg rounded-4">
     <h3>Welcome, {{ current_user.first_name }} {{ current_user.last_name }}</h3>
     <hr>
-    <dl class="row">
-        <dt class="col-sm-3">ID</dt>
-        <dd class="col-sm-9">{{ current_user.id }}</dd>
+    <div class="row d-flex align-items-center">
+        <div class="col-md-3 d-flex justify-content-center">
+            <img src="{{ url_for('static', filename='images/default_pic.png') }}" class="img-thumbnail rounded-circle"
+                alt="Default Profile Pic" style="max-width: 250px;">
+        </div>
+        <div class="col-md-9">
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ current_user.id }}</dd>
 
-        <dt class="col-sm-3">Email</dt>
-        <dd class="col-sm-9">{{ current_user.email }}</dd>
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">{{ current_user.email }}</dd>
 
-        <dt class="col-sm-3">Password</dt>
-        <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
+                <dt class="col-sm-3">Password</dt>
+                <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
 
-        <dt class="col-sm-3">Date Joined</dt>
-        <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
-            %Y') }}</dd>
-    </dl>
-    <div class="text-end">
-        <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm">Logout</a>
+                <dt class="col-sm-3">Date Joined</dt>
+                <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
+                    %Y') }}</dd>
+            </dl>
+        </div>
     </div>
 
+    <div class="text-end">
+        <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm me-2 mb-2">Logout</a>
+    </div>
 </div>
 
 

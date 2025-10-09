@@ -26,7 +26,7 @@
 
             <!-- TO DO REMOVED NAV BAR -->
 
-            <div class="col-md-2 bg-dark bg-gradient">
+            <div class="col-2 bg-dark bg-gradient min-vh-100 overflow-hidden">
                 <dl>
                     <h4 class="text-warning">Navbar (Temp)</h4>
                     <hr class="text-white">
@@ -39,6 +39,9 @@
 
                     <!-- Logged in Routes -->
                     {% if current_user.is_authenticated %}
+                    <dt> <a href="{{ url_for('main.user_dashboard') }}">Dashboard</a></dt>
+                    <hr class="text-white">
+
 
                     <!-- Admin Routes -->
                     {% if current_user.id == 1 %}
@@ -51,7 +54,7 @@
             </div>
 
             <!-- CONTENT -->
-            <div class="col-md-10">
+            <div class="col-10 overflow-hidden">
                 {% block content %}
                 {% endblock %}
             </div>

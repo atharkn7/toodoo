@@ -12,3 +12,6 @@ instance/
 # Database files (if using SQLite locally)
 *.sqlite3
 *.db
+
+# User images
+toodoo/static/images/
