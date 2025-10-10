@@ -2,18 +2,6 @@
 
 
 {% block content %}
-<!-- ALERT MESSAGE -->
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {% for message in messages %}
-    {{ message }}
-    {% endfor %}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-{% endwith %}
-
 <!-- USER DASHBOARD-->
 <div class="container pt-3">
     <div class="row d-flex align-items-start">
@@ -30,11 +18,15 @@
             </div>
             <br>
             <div class="w-100">
-                <a href="{{ url_for('main.user_edit') }}" class="btn btn-outline-secondary btn-sm w-100">Update
+                <a href="{{ url_for('main.user_edit', id=current_user.id) }}"
+                    class="btn btn-outline-secondary btn-sm w-100">Update
                     Profile</a>
             </div>
             <div>
-                {% block edit_user %}{% endblock %}
+                <!-- CONDITIONAL RENDER -->
+                <div class="w-100 mt-3">
+                    <!-- Design something here-->
+                </div>
             </div>
 
         </div>
@@ -46,9 +38,23 @@
                 <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm me-2 mb-2">Logout</a>
             </div>
 
-            <!-- Dynamic Content -->
-            {% block user_content %}
-            {% endblock %}
+            <!-- ALERT MESSAGE -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Content -->
+            <div class="container-fluid d-flex justify-content-center">
+                {% block user_content %}
+                {% endblock %}
+            </div>
 
         </div>
 

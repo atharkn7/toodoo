@@ -1,33 +1,38 @@
 {% extends "users/user_dashboard.html" %}
 
-{% block edit_user %}
-<div class="px-3 pt-2 mt-5 d-flex flex-column justify-content-center border rounded-2 bg-light">
+{% block user_content %}
+<div class="w-75 px-3 pt-2 mt-5 d-flex flex-column justify-content-center border rounded-2 bg-light">
 
-    <form method="POST" class="w-100">
-        {{ form.csrf_token }}
+    <form method="POST">
+        {{ edit_form.csrf_token }}
 
         <div class="row">
             <div class="col-md-6 mb-3 text-start">
-                {{ form.first_name.label(class="form-label") }}
-                {{ form.first_name(class="form-control", value=current_user.first_name) }}
+                {{ edit_form.first_name.label(class="form-label") }}
+                {{ edit_form.first_name(class="form-control", value=current_user.first_name) }}
             </div>
             <div class="col-md-6 mb-3 text-start">
-                {{ form.last_name.label(class="form-label") }}
-                {{ form.last_name(class="form-control", value=current_user.last_name) }}
+                {{ edit_form.last_name.label(class="form-label") }}
+                {{ edit_form.last_name(class="form-control", value=current_user.last_name) }}
             </div>
         </div>
         <div class="mb-3 text-start">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control", value=current_user.email) }}
+            {{ edit_form.email.label(class="form-label") }}
+            {{ edit_form.email(class="form-control", value=current_user.email) }}
         </div>
-
-        {{ form.register(class="btn btn-outline-success btn-sm", value="Save", style="width: 65px") }}
+        <hr><br>
+        {{ edit_form.save(class="btn btn-outline-success btn-sm", style="width: 25%") }}
         <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
-            style="width: 65px">Cancel</a>
+            style="width: 25%">Cancel</a>
+    </form>
+    <hr><br>
+    <a href="#" class="btn btn-outline-secondary btn-sm w-25">Change Password</a>
+    <br>
+    <hr><br>
 
-        <hr>
-        <a href="#" class="btn btn-outline-secondary btn-sm">Change Password</a>
-
+    <form method="POST" action="{{ url_for('main.user_delete', id=current_user.id) }}">
+        {{ delete_form.csrf_token }}
+        {{ delete_form.delete(class="btn btn-outline-danger btn-sm w-25", value="Delete Profile") }}
     </form>
 </div>
 {% endblock %}

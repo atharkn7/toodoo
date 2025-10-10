@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
-from .forms import LoginForm, RegisterForm, DeleteForm
+from .forms import LoginForm, RegisterForm, DeleteForm, EditUser
 from .models import Users, generate_password_hash, check_password_hash
 
 # Creates the main blueprint that gets sent to init
@@ -132,9 +132,63 @@ def user_profile():
     return render_template('/users/user_profile.html')
 
 #TODO: Edit User Route
-@main_bp.route('/user/edit')
+@main_bp.route('/user/edit/<int:id>', methods=["GET", "POST"])
 @login_required
-def user_edit():
-    form = RegisterForm()
+def user_edit(id):
+    # Forms
+    edit_form = EditUser()   # Reusing register here
+    delete_form = DeleteForm()
+
+    user_to_update = Users.query.get_or_404(id)
+
+    if not current_user.id == id:   # Add admin logic
+        flash('Unauthorized access!')
+        return redirect('main.user_dashboard')
+    
+
+    if edit_form.validate_on_submit():
+        # Updating values of user
+        user_to_update.first_name = edit_form.first_name.data
+        user_to_update.last_name = edit_form.last_name.data
+        user_to_update.email = edit_form.email.data
+
+        # Updating db
+        try:
+            db.session.commit()
+            flash('User Updated!')
+            return redirect(url_for('main.user_profile'))
+        except:
+            db.session.rollback()
+            flash('Update failed! Try again...')
+            return redirect(url_for('main.user_dashboard'))
+
     #TODO: Add update logic
-    return render_template('/users/user_edit.html', form=form)
+    return render_template('/users/user_edit.html', edit_form=edit_form, delete_form=delete_form)
+
+@main_bp.route('/user/delete/<int:id>', methods=["POST"])
+@login_required
+def user_delete(id):
+    user_to_delete = Users.query.get_or_404(id)
+
+    # Only correct user can delete
+    if not current_user.id == id:
+        flash('Unauthorized access!')
+        return redirect(url_for('main.user_dashboard'))
+    
+    try:
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        flash('Profile Deleted!')
+        #TODO: Add admin logic here to add proper routing
+        if False:
+            return redirect(url_for('main.admin_dashboard'))
+        else:
+            return redirect(url_for('main.index'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'User Deletion Failed! | Error: {e}')
+        #TODO: Add admin logic here to add proper routing
+        if False:
+            return redirect(url_for('main.admin_dashboard'))
+        else:
+            return redirect(url_for('main.user_dashboard'))

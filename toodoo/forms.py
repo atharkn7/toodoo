@@ -18,6 +18,13 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField('Confirm Password', validators=[Length(min=8, max=16)])
     register = SubmitField('Register')
 
+# Edit User Form
+class EditUser(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired()])
+    save = SubmitField("Save")
+
 # Delete user
 class DeleteForm(FlaskForm):
     delete = SubmitField('Delete')
