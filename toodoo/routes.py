@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
-from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass
+from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass, CreateTask
 from .models import Users, generate_password_hash, check_password_hash
 
 # Creates the main blueprint that gets sent to init
@@ -9,6 +9,7 @@ main_bp = Blueprint('main', __name__)
 
 
 """ LOGIN ROUTES """
+# Index handles Login
 @main_bp.route('/', methods=["GET", "POST"])
 def index():
     form = LoginForm()
@@ -108,8 +109,9 @@ def delete_user(id):
 # Login landing route
 @main_bp.route('/user')
 @login_required
-def user_login():
-    return render_template('users/user_dashboard.html')
+def user_home_redirect():
+    # Does not do anything as of now
+    return redirect(url_for('main.user_dashboard'))
 
 # Dashboard
 @main_bp.route('/user/dashboard')
@@ -131,7 +133,6 @@ def user_logout():
 def user_profile():
     return render_template('/users/user_profile.html')
 
-#TODO: Edit User Route
 @main_bp.route('/user/edit/<int:id>', methods=["GET", "POST"])
 @login_required
 def user_edit(id):
@@ -194,7 +195,7 @@ def user_delete(id):
             return redirect(url_for('main.user_dashboard'))
         
 # Change user pass route
-@main_bp.route('/user/update_pass', methods=["GET", "POST"])
+@main_bp.route('/user/password/update', methods=["GET", "POST"])
 @login_required
 def user_update_pass():
     form = UpdateUserPass()
@@ -231,3 +232,34 @@ def user_update_pass():
             return redirect(url_for('main.user_dashboard'))
         
     return render_template('/users/user_update_pass.html', form=form)
+
+
+""" Tasks: CRUD Ops """
+#TODO: ALL
+
+# Create
+@main_bp.route('/user/task/add', methods=["GET", "POST"])
+def task_create():
+    form = CreateTask()
+    return render_template('/tasks/task_create.html', form=form)
+
+# Read: Details for a single task
+@main_bp.route('/user/tasks/<int:id>')
+def task_detail(id):
+    return True
+
+# View all tasks
+@main_bp.route('/user/tasks')
+def task_list():
+    return True
+
+# Update
+@main_bp.route('/user/tasks/edit/<int:id>')
+def task_edit(id):
+    return True
+
+# Deletion
+@main_bp.route('/user/task/delete')
+def task_delete():
+    return True
+

@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, StringField, PasswordField, SubmitField
+from wtforms import EmailField, StringField, PasswordField, SubmitField, DateField, TimeField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo
 
-
+""" USER FORMS """
 # Login User
 class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired()])
@@ -35,3 +35,12 @@ class UpdateUserPass(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=16), EqualTo('password2', message='Passwords must match')])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=8, max=16)])
     submit = SubmitField('Submit')
+
+
+# Task Forms
+class CreateTask(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    notes = TextAreaField('Notes')
+    due_date = DateField('Date')
+    due_time = TimeField('Time')
+    submit = SubmitField('Add')

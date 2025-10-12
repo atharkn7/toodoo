@@ -17,7 +17,7 @@
                 <!-- DROPDOWN -->
                 <!-- Admin Routes -->
                 {% if current_user.id == 1 %}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown me-4">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Admin
@@ -31,8 +31,29 @@
                 </li>
                 {% endif %}
 
-                <!-- ACTIVE LIST ITEMS -->
-                <!-- Logged in Routes -->
+                <!-- Routes after loggin in -->
+
+                <!-- Task -->
+
+                <li class="nav-item dropdown me-4">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Tasks
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
+                        <li><a class="dropdown-item" href="{{ url_for('main.task_create') }}">Create</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.task_list') }}">View all Tasks</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('main.task_delete', id=current_user.id) }}">
+                                Maybe Delete</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- User -->
+
                 {% if current_user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
