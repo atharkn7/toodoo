@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
-from .forms import LoginForm, RegisterForm, DeleteForm, EditUser
+from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass
 from .models import Users, generate_password_hash, check_password_hash
 
 # Creates the main blueprint that gets sent to init
@@ -192,3 +192,41 @@ def user_delete(id):
             return redirect(url_for('main.admin_dashboard'))
         else:
             return redirect(url_for('main.user_dashboard'))
+        
+# Change user pass route
+@main_bp.route('/user/update_pass', methods=["GET", "POST"])
+@login_required
+def user_update_pass():
+    form = UpdateUserPass()
+    user_to_update = current_user
+
+    """ NO LONGER NEEDED 
+    if not current_user.id == id:
+        flash('Unauthorized access!')
+        return redirect(url_for('main.user_dashboard'))
+    """
+        
+    if form.validate_on_submit():
+        # Validating current pass matches
+        if not check_password_hash(user_to_update.password_hash, form.current_password.data):
+            flash('Current password incorrect.')
+            return redirect(url_for('main.user_update_pass'))
+        
+        # Prevent reusing old password
+        if check_password_hash(user_to_update.password_hash, form.password.data):
+            flash('New password must be different from the current one.')
+            return redirect(url_for('main.user_update_pass'))
+
+        # Hash and update
+        user_to_update.password_hash = generate_password_hash(form.password.data)
+
+        try: 
+            db.session.commit()
+            flash('Password Updated Successfully!')
+            return redirect(url_for('main.user_dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while updating the password.')
+            return redirect(url_for('main.user_dashboard'))
+        
+    return render_template('/users/user_update_pass.html', form=form)

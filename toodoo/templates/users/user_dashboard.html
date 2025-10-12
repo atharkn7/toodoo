@@ -41,7 +41,8 @@
             <!-- ALERT MESSAGE -->
             {% with messages = get_flashed_messages() %}
             {% if messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                style="max-width: 75%; margin: 0 auto;">
                 {% for message in messages %}
                 {{ message }}
                 {% endfor %}

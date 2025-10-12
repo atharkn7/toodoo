@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">TooDoo</span>
+        <span class="navbar-brand mb-0 h1 text-warning">TooDoo</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,15 +28,27 @@
                 <!-- ACTIVE LIST ITEMS -->
                 <!-- Logged in Routes -->
                 {% if current_user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.user_profile') }}">View Profile</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.user_edit', id=current_user.id) }}">Update
+                                Profile</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.user_profile') }}">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.user_edit', id=current_user.id) }}">Update Profile</a>
-                </li>
+                </li> 
+                -->
                 {% endif %}
 
 

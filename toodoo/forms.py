@@ -28,3 +28,10 @@ class EditUser(FlaskForm):
 # Delete user
 class DeleteForm(FlaskForm):
     delete = SubmitField('Delete')
+
+# Change User Password Form
+class UpdateUserPass(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[Length(min=8, max=16)])
+    password = PasswordField('Password', validators=[Length(min=8, max=16), EqualTo('password2', message='Passwords Must Match')])
+    password2 = PasswordField('Confirm Password', validators=[Length(min=8, max=16)])
+    submit = SubmitField('Submit')
