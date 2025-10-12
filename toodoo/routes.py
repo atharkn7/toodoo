@@ -205,8 +205,9 @@ def user_update_pass():
         flash('Unauthorized access!')
         return redirect(url_for('main.user_dashboard'))
     """
-        
-    if form.validate_on_submit():
+
+    # Adding multiple conditions for security
+    if request.method == "POST" and form.validate_on_submit():
         # Validating current pass matches
         if not check_password_hash(user_to_update.password_hash, form.current_password.data):
             flash('Current password incorrect.')
@@ -222,7 +223,7 @@ def user_update_pass():
 
         try: 
             db.session.commit()
-            flash('Password Updated Successfully!')
+            flash('Password updated successfully.')
             return redirect(url_for('main.user_dashboard'))
         except Exception as e:
             db.session.rollback()

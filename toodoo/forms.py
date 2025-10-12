@@ -31,7 +31,7 @@ class DeleteForm(FlaskForm):
 
 # Change User Password Form
 class UpdateUserPass(FlaskForm):
-    current_password = PasswordField('Current Password', validators=[Length(min=8, max=16)])
-    password = PasswordField('Password', validators=[Length(min=8, max=16), EqualTo('password2', message='Passwords Must Match')])
-    password2 = PasswordField('Confirm Password', validators=[Length(min=8, max=16)])
+    current_password = PasswordField('Current Password', validators=[DataRequired(), Length(min=8, max=16)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=16), EqualTo('password2', message='Passwords must match')])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=8, max=16)])
     submit = SubmitField('Submit')
