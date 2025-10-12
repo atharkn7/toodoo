@@ -5,7 +5,18 @@
 <div class="container p-4 shadow-lg">
     <h3>ADMIN PAGE</h3>
     <hr>
-    <p>Do admin stuff here...</p>
+    <h5>ALL TASKS...</h5>
+
+    {% for task in tasks %}
+
+    <p>{{ task.title }} - {{ task.due_date }}</p>
+
+    {% else %}
+
+    <p>No tasks yet.</p>
+
+    {% endfor %}
+
     <a class="btn btn-secondary" href="{{ url_for('main.admin_manage_users') }}">View all Users</a>
 </div>
 

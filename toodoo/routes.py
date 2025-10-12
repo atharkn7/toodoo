@@ -74,7 +74,8 @@ def add_user():
 @main_bp.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
-    return render_template('admin/admin_dashboard.html')
+    tasks = Tasks.query.all()
+    return render_template('admin/admin_dashboard.html', tasks=tasks)
 
 # Admin - Dashboard
 @main_bp.route('/admin/users')
@@ -265,7 +266,8 @@ def task_create():
             title=form.title.data,
             notes=form.notes.data,
             due_date=due_date,
-            due_time=due_time
+            due_time=due_time,
+            user_id=current_user.id
         )
 
         # Adding to DB
@@ -288,7 +290,7 @@ def task_detail(id):
 @main_bp.route('/user/tasks')
 def task_list():
     # Getting all tasks for current user
-    tasks = current_user.tasks
+    tasks = Tasks.query.filter_by(user_id=current_user.id).all()
 
     return render_template('tasks/task_list.html', tasks=tasks)
 
