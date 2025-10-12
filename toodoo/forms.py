@@ -37,10 +37,10 @@ class UpdateUserPass(FlaskForm):
     submit = SubmitField('Submit')
 
 
-# Task Forms
+""" TASK FORMS """
 class CreateTask(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    notes = TextAreaField('Notes')
-    due_date = DateField('Date')
-    due_time = TimeField('Time')
+    notes = TextAreaField('Notes', validators=[Length(max=500)])
+    due_date = DateField('Date', format='%Y-%m-%d', validators=[])
+    due_time = TimeField('Time', format='%H:%M', validators=[])
     submit = SubmitField('Add')

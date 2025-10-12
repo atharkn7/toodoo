@@ -1,8 +1,9 @@
+from datetime import date, time
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
 from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass, CreateTask
-from .models import Users, generate_password_hash, check_password_hash
+from .models import Users, Tasks, generate_password_hash, check_password_hash
 
 # Creates the main blueprint that gets sent to init
 main_bp = Blueprint('main', __name__)
@@ -241,6 +242,41 @@ def user_update_pass():
 @main_bp.route('/user/task/add', methods=["GET", "POST"])
 def task_create():
     form = CreateTask()
+
+    if request.method == "POST":
+        
+        # Handling blanks 
+        due_date = form.due_date.data or date.today()
+        due_time = form.due_time.data or None  # optional, can be left NULL
+
+        # Manually validating user title
+        title = (form.title.data or "").strip()
+        notes = (form.notes.data or "").strip()
+        if not title:
+            flash('Task cannot be created without a "Title"')
+            return redirect(url_for('main.task_list'))
+
+        if len(notes) > 500:
+            flash('"Notes" too long! Max length 500')
+            return redirect(url_for('main.task_list'))
+
+        # Adding to DB here
+        task = Tasks(
+            title=form.title.data,
+            notes=form.notes.data,
+            due_date=due_date,
+            due_time=due_time
+        )
+
+        # Adding to DB
+        db.session.add(task)
+        db.session.commit()
+
+        # flash & redirect
+        flash('Task added successfully!')
+        return redirect(url_for('main.task_list'))
+    
+    # GET
     return render_template('/tasks/task_create.html', form=form)
 
 # Read: Details for a single task
@@ -251,7 +287,10 @@ def task_detail(id):
 # View all tasks
 @main_bp.route('/user/tasks')
 def task_list():
-    return True
+    # Getting all tasks for current user
+    tasks = current_user.tasks
+
+    return render_template('tasks/task_list.html', tasks=tasks)
 
 # Update
 @main_bp.route('/user/tasks/edit/<int:id>')

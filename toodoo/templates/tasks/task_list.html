@@ -1,0 +1,17 @@
+{% extends "users/user_dashboard.html" %}
+
+{% block user_content %}
+
+<div class="w-75 px-3 pt-2 mt-5 d-flex flex-column justify-content-center border rounded-2 bg-light">
+    {% for task in tasks %}
+
+    <p>{{ task.title }} - {{ task.due_date }}</p>
+
+    {% else %}
+
+    <p>No tasks yet.</p>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

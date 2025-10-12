@@ -15,11 +15,11 @@
         </div>
         <div class="mb-3 text-start">
             {{ form.due_date.label(class="form-label") }}
-            {{ form.due_date(class="form-control") }}
+            {{ form.due_date(class="form-control", type="date") }}
         </div>
         <div class="mb-3 text-start">
             {{ form.due_time.label(class="form-label") }}
-            {{ form.due_time(class="form-control") }}
+            {{ form.due_time(class="form-control", type="time") }}
         </div>
         <hr><br>
         {{ form.submit(class="btn btn-outline-success btn-sm", style="width: 25%") }}
