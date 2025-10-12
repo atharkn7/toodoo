@@ -1,12 +1,18 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" data-bs-theme="dark">
     <div class="container-fluid">
+
+        <!-- Left-aligned brand -->
         <span class="navbar-brand mb-0 h1 text-warning">TooDoo</span>
+
+        <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- Right-aligned nav items -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                 <!-- DROPDOWN -->
                 <!-- Admin Routes -->
@@ -16,7 +22,7 @@
                         aria-expanded="false">
                         Admin
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
                         <li><a class="dropdown-item" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
                         </li>
                         <li><a class="dropdown-item" href="{{ url_for('main.admin_manage_users') }}">Manage Users</a>
@@ -33,7 +39,7 @@
                         aria-expanded="false">
                         Profile
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
                         <li><a class="dropdown-item" href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
                         </li>
                         <li><a class="dropdown-item" href="{{ url_for('main.user_profile') }}">View Profile</a>
