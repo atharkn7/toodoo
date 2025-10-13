@@ -3,8 +3,8 @@
 
 {% block content %}
 <!-- USER DASHBOARD-->
-<div class="container pt-3">
-    <div class="row d-flex align-items-start">
+<div class="container pt-3 ">
+    <div class="row d-flex align-items-start g-5">
 
         <!-- Left Section -->
         <div class="col-md-3 d-flex justify-content-center flex-column align-items-center">
@@ -32,12 +32,6 @@
         </div>
         <!-- Right Section -->
         <div class="col-md-9">
-
-            <!-- Logout Button (REMOVED)
-            <div class="text-end">
-                <a href="{{ url_for('main.user_logout') }}" class="btn btn-outline-danger btn-sm me-2 mb-2">Logout</a>
-            </div>
-            -->
 
             <!-- ALERT MESSAGE -->
             {% with messages = get_flashed_messages() %}
