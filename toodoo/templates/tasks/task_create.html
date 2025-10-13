@@ -2,30 +2,28 @@
 
 {% block user_content %}
 
-<div class="w-75 px-3 pt-2 mt-5 d-flex flex-column justify-content-center border rounded-2 bg-light">
-    <form method="POST">
-        {{ form.csrf_token }}
-        <div class="mb-3 text-start">
-            {{ form.title.label(class="form-label") }}
-            {{ form.title(class="form-control") }}
-        </div>
-        <div class="mb-3 text-start">
-            {{ form.notes.label(class="form-label") }}
-            {{ form.notes(class="form-control") }}
-        </div>
-        <div class="mb-3 text-start">
-            {{ form.due_date.label(class="form-label") }}
-            {{ form.due_date(class="form-control", type="date") }}
-        </div>
-        <div class="mb-3 text-start">
-            {{ form.due_time.label(class="form-label") }}
-            {{ form.due_time(class="form-control", type="time") }}
-        </div>
-        <hr><br>
-        {{ form.submit(class="btn btn-outline-success btn-sm", style="width: 25%") }}
-        <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
-            style="width: 25%">Cancel</a>
-    </form>
-</div>
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="mb-3 text-start">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.notes.label(class="form-label") }}
+        {{ form.notes(class="form-control") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.due_date.label(class="form-label") }}
+        {{ form.due_date(class="form-control", type="date") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.due_time.label(class="form-label") }}
+        {{ form.due_time(class="form-control", type="time") }}
+    </div>
+    <hr><br>
+    {{ form.submit(class="btn btn-outline-success btn-sm", style="width: 25%") }}
+    <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
+        style="width: 25%">Cancel</a>
+</form>
 
 {% endblock %}

@@ -119,7 +119,8 @@ def user_home_redirect():
 @main_bp.route('/user/dashboard')
 @login_required
 def user_dashboard():
-    return render_template('users/user_dashboard.html')
+    #TODO: Show only due and today's tasks
+    return redirect(url_for('main.task_list'))
 
 # Logout
 @main_bp.route('/user/logout')
@@ -289,8 +290,8 @@ def task_detail(id):
 # View all tasks
 @main_bp.route('/user/tasks')
 def task_list():
-    # Getting all tasks for current user
-    tasks = Tasks.query.filter_by(user_id=current_user.id).all()
+    #TODO: Show all past and future tasks
+    tasks = Tasks.query.filter_by(user_id=current_user.id).order_by(Tasks.due_date.asc()).all()
 
     return render_template('tasks/task_list.html', tasks=tasks)
 

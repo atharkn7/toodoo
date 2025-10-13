@@ -1,23 +1,21 @@
 {% extends "users/user_dashboard.html" %}
 
 {% block user_content %}
-<div class="py-2 px-1 rounded-2 border">
-    <dl class="row">
-        <dt class="col-sm-3">ID</dt>
-        <dd class="col-sm-9">{{ current_user.id }}</dd>
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">{{ current_user.id }}</dd>
 
-        <dt class="col-sm-3">Email</dt>
-        <dd class="col-sm-9">{{ current_user.email }}</dd>
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">{{ current_user.email }}</dd>
 
-        <dt class="col-sm-3">Profile Pic</dt>
-        <dd class="col-sm-9">{{ current_user.profile_pic }}</dd>
+    <dt class="col-sm-3">Profile Pic</dt>
+    <dd class="col-sm-9">{{ current_user.profile_pic }}</dd>
 
-        <dt class="col-sm-3">Password</dt>
-        <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
+    <dt class="col-sm-3">Password</dt>
+    <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
 
-        <dt class="col-sm-3">Date Joined</dt>
-        <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
-            %Y') }}</dd>
-    </dl>
-</div>
+    <dt class="col-sm-3">Date Joined</dt>
+    <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
+        %Y') }}</dd>
+</dl>
 {% endblock %}
