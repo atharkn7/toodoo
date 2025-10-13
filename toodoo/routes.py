@@ -95,27 +95,6 @@ def admin_manage_tasks():
                            tasks=tasks, delete_form=delete_form)
 
 
-#TODO: Update this to just be admin relevant
-@main_bp.route('/users/delete/<int:id>', methods=["POST"])
-@login_required
-def delete_user(id):        
-    user = Users.query.filter_by(id=id).first()
-
-    if not user:
-        flash('No user found!')
-    else:
-        try:
-            db.session.delete(user)
-            db.session.commit()
-            flash('User deleted successfully!')
-        except Exception as e:
-            db.session.rollback()
-            flash(f'User deletion failed: {str(e)}')
-
-    #TODO: Add logic to check user role and route accordingly
-    return redirect(url_for('main.index'))
-
-
 """ USER MANAGEMENT """
 # Login landing route
 @main_bp.route('/user')
