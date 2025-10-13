@@ -24,8 +24,14 @@
 
                 <!-- Routes after loggin in -->
 
-                <!-- Task -->
+                <!-- User -->
 
+                {% if current_user.is_authenticated %}
+                <li class="nav-item me-4">
+                    <a class="nav-link" href="{{ url_for('main.user_dashboard') }}">Dashboard</a>
+                </li>
+
+                <!-- Task -->
                 <li class="nav-item dropdown me-4">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -37,23 +43,16 @@
                     </ul>
                 </li>
 
-                <!-- User -->
-
-                {% if current_user.is_authenticated %}
+                <!-- Profile dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Profile
+                        Icon
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
                         <li>
-                            <a class="dropdown-item" href="{{ url_for('main.user_dashboard') }}">
-                                <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                            </a>
-                        </li>
-                        <li>
                             <a class="dropdown-item" href="{{ url_for('main.user_profile') }}">
-                                <i class="bi bi-person-circle me-2"></i>View Profile
+                                <i class="bi bi-person-circle me-2"></i>Profile
                             </a>
                         </li>
                         <li>
