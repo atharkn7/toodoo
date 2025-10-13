@@ -1,7 +1,7 @@
 {% extends "users/user_dashboard.html" %}
 
 {% block user_content %}
-<dl class="row">
+<dl class="row g-2">
     <dt class="col-sm-3">ID</dt>
     <dd class="col-sm-9">{{ current_user.id }}</dd>
 
@@ -12,12 +12,20 @@
     <dd class="col-sm-9">{{ current_user.profile_pic }}</dd>
 
     <dt class="col-sm-3">Password</dt>
-    <dd class="col-sm-9 text-break overflow-hidden">{{ current_user.password_hash }}</dd>
+    <dd class="col-sm-9 overflow-hidden text-truncate">{{ current_user.password_hash }}</dd>
 
     <dt class="col-sm-3">Date Joined</dt>
     <dd class="col-sm-9">{{ current_user.date_added.strftime('%B %d,
         %Y') }}</dd>
+    <dt class="col-sm-3">Total Tasks Created</dt>
+    <dd class="col-sm-9">12</dd>
 </dl>
+<hr>
 
 <!-- Move Update HERE -->
+<div class="d-flex justify-content-end">
+    <a href="{{ url_for('main.user_edit', id=current_user.id)}}" class="btn btn-outline-secondary btn-sm w-25">Update
+        Profile</a>
+</div>
+
 {% endblock %}

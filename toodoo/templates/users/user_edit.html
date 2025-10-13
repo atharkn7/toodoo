@@ -21,8 +21,7 @@
     </div>
     <hr><br>
     {{ edit_form.save(class="btn btn-outline-success btn-sm", style="width: 25%") }}
-    <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
-        style="width: 25%">Cancel</a>
+    <a href="{{ url_for('main.user_profile') }}" class="btn btn-outline-secondary btn-sm" style="width: 25%">Cancel</a>
 </form>
 <hr><br>
 <a href="{{ url_for('main.user_update_pass')}}" class="btn btn-outline-secondary btn-sm w-25">Change Password</a>
