@@ -1,0 +1,10 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block admin_content %}
+
+<div>
+    <a class="btn btn-outline-secondary" href="{{ url_for('main.admin_manage_users') }}">All Users</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('main.admin_manage_tasks') }}">All Tasks</a>
+</div>
+
+{% endblock %}

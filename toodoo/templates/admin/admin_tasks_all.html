@@ -1,0 +1,48 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block admin_content %}
+
+<div class="container">
+    <h5>ALL TASKS...</h5>
+    {% if tasks %}
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-warning-subtle text-warning border-bottom border-warning">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">User</th>
+                <th scope="col">Title</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Due Time</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <th scope="row" class="text-warning">{{ loop.index }}</th>
+                <td>{{ task.user_id }}: {{task.poster.first_name}} </td>
+                <td>{{ task.title }}</td>
+                <td class="text-secondary">{{ task.notes or "No notes" }}</td>
+                <td>{{ task.due_date.strftime("%Y-%m-%d") }}</td>
+                <td>{{ task.due_time.strftime("%H:%M") if task.due_time else "—" }}</td>
+                <td class="d-flex align-items-center justify-content-center">
+                    <form method="POST" action="{{ url_for('main.task_delete', id=task.task_id) }}" class="m-0 p-0">
+                        {{ delete_form.csrf_token }}
+                        {{ delete_form.delete(class="btn btn-outline-danger btn-sm", value="Delete") }}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center my-3 text-warning-emphasis">No tasks yet.</p>
+    {% endif %}
+
+    <br>
+    <hr><br>
+    <a class="btn btn-outline-secondary" href="{{ url_for('main.admin_dashboard') }}">Back</a>
+</div>
+
+{% endblock %}

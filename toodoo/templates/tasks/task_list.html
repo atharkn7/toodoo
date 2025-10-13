@@ -18,11 +18,12 @@
         {% for task in tasks %}
         <tr>
             <th scope="row" class="text-warning">{{ loop.index }}</th>
-            <td>{{ task.title or "Untitled" }}</td>
+            <td>{{ task.title }}</td>
             <td class="text-secondary">{{ task.notes or "No notes" }}</td>
             <td>{{ task.due_date.strftime("%Y-%m-%d") }}</td>
             <td>{{ task.due_time.strftime("%H:%M") if task.due_time else "—" }}</td>
-            <td><a href="#" class="btn btn-outline-secondary btn-sm">Edit</a></td>
+            <td><a href="{{ url_for('main.task_edit', id=task.task_id) }}"
+                    class="btn btn-outline-secondary btn-sm">Edit</a></td>
         </tr>
         {% endfor %}
     </tbody>

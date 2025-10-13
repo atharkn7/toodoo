@@ -1,0 +1,33 @@
+{% extends "users/user_dashboard.html" %}
+
+{% block user_content %}
+
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="mb-3 text-start">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.notes.label(class="form-label") }}
+        {{ form.notes(class="form-control") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.due_date.label(class="form-label") }}
+        {{ form.due_date(class="form-control", type="date") }}
+    </div>
+    <div class="mb-3 text-start">
+        {{ form.due_time.label(class="form-label") }}
+        {{ form.due_time(class="form-control", type="time") }}
+    </div>
+    <hr><br>
+    {{ form.submit(class="btn btn-outline-success btn-sm", style="width: 25%", value="Edit") }}
+    <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-outline-secondary btn-sm"
+        style="width: 25%">Cancel</a>
+</form>
+<hr><br>
+<form method="POST" action="{{ url_for('main.task_delete', id=id) }}">
+    {{ delete_form.csrf_token }}
+    {{ delete_form.delete(class="btn btn-outline-danger btn-sm w-25", value="Delete Task") }}
+</form>
+{% endblock %}

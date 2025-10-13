@@ -1,23 +1,29 @@
 {% extends "users/user_dashboard.html" %}
 
-{% block content %}
+{% block user_content %}
 
-<div class="container p-4 shadow-lg">
+<div class="container">
     <h3>ADMIN PAGE</h3>
-    <hr>
-    <h5>ALL TASKS...</h5>
+    <hr><br>
 
-    {% for task in tasks %}
+    <!-- ALERT MESSAGE -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="max-width: 75%; margin: 0 auto;">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
 
-    <p>{{ task.title }} - {{ task.due_date }}</p>
+    {% block admin_content %}
+    {% endblock %}
 
-    {% else %}
+    <br>
+    <hr><br>
 
-    <p>No tasks yet.</p>
-
-    {% endfor %}
-
-    <a class="btn btn-secondary" href="{{ url_for('main.admin_manage_users') }}">View all Users</a>
 </div>
 
 

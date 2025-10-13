@@ -74,8 +74,7 @@ def add_user():
 @main_bp.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
-    tasks = Tasks.query.all()
-    return render_template('admin/admin_dashboard.html', tasks=tasks)
+    return render_template('admin/admin_functions.html')
 
 # Admin - Dashboard
 @main_bp.route('/admin/users')
@@ -83,10 +82,20 @@ def admin_dashboard():
 def admin_manage_users():
     users = Users.query.order_by(Users.date_added)
     form = DeleteForm()
-    return render_template('admin/users.html', users=users, form=form)
+    return render_template('admin/admin_users_all.html', 
+                           users=users, form=form)
 
 
-# Admin - User Delete
+@main_bp.route('/admin/tasks')
+@login_required
+def admin_manage_tasks():
+    tasks = Tasks.query.all()
+    delete_form = DeleteForm()
+    return render_template('admin/admin_tasks_all.html', 
+                           tasks=tasks, delete_form=delete_form)
+
+
+#TODO: Update this to just be admin relevant
 @main_bp.route('/users/delete/<int:id>', methods=["POST"])
 @login_required
 def delete_user(id):        
@@ -242,66 +251,170 @@ def user_update_pass():
 
 # Create
 @main_bp.route('/user/task/add', methods=["GET", "POST"])
+@login_required
 def task_create():
     form = CreateTask()
 
     if request.method == "POST":
-        
-        # Handling blanks 
+        # Date&Time handling blanks
         due_date = form.due_date.data or date.today()
         due_time = form.due_time.data or None  # optional, can be left NULL
 
         # Manually validating user title
         title = (form.title.data or "").strip()
-        notes = (form.notes.data or "").strip()
         if not title:
             flash('Task cannot be created without a "Title"')
             return redirect(url_for('main.task_list'))
-
-        if len(notes) > 500:
+        
+        # Notes Validation
+        notes_raw = (form.notes.data or "").strip()
+        # Length Check
+        if notes_raw and len(notes_raw) > 500:
             flash('"Notes" too long! Max length 500')
             return redirect(url_for('main.task_list'))
+        
+        notes = notes_raw if notes_raw else None
 
         # Adding to DB here
         task = Tasks(
-            title=form.title.data,
-            notes=form.notes.data,
+            title=title,
+            notes=notes,
             due_date=due_date,
             due_time=due_time,
             user_id=current_user.id
         )
 
-        # Adding to DB
-        db.session.add(task)
-        db.session.commit()
+        try:
+            db.session.add(task)
+            db.session.commit()
+            flash('Task added successfully!')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error adding task: {str(e)}')
+            return redirect(url_for('main.task_create'))
 
-        # flash & redirect
-        flash('Task added successfully!')
         return redirect(url_for('main.task_list'))
-    
+        
     # GET
     return render_template('/tasks/task_create.html', form=form)
 
+
 # Read: Details for a single task
 @main_bp.route('/user/tasks/<int:id>')
+@login_required
 def task_detail(id):
+    # Might consider adding that as a dropdown when clicking a task
     return True
+
 
 # View all tasks
 @main_bp.route('/user/tasks')
+@login_required
 def task_list():
     #TODO: Show all past and future tasks
     tasks = Tasks.query.filter_by(user_id=current_user.id).order_by(Tasks.due_date.asc()).all()
 
     return render_template('tasks/task_list.html', tasks=tasks)
 
+
 # Update
-@main_bp.route('/user/tasks/edit/<int:id>')
+@main_bp.route('/user/tasks/edit/<int:id>', methods=["GET", "POST"])
+@login_required
 def task_edit(id):
-    return True
+    form = CreateTask() # Reusing same task form
+    delete_form = DeleteForm()
+    task_to_edit = Tasks.query.get_or_404(id)
+    admin_user = False
+
+    # Checking if admin user
+    if current_user.id == 1:
+        admin_user = True
+
+    if task_to_edit.user_id != current_user.id and not admin_user:
+        flash("You are not allowed to access this task.")
+        return redirect(url_for('main.user_dashboard'))
+
+    if request.method == "POST":
+        # Date&Time handling blanks
+        due_date = form.due_date.data
+        due_time = form.due_time.data or None  # optional, can be left NULL
+
+        # Manually validating user title
+        title = (form.title.data or "").strip()
+        if not title:
+            flash('Task "title" cannot be blank!')
+            return redirect(url_for('main.task_edit', id=id))
+        
+        # Notes Validation
+        notes_raw = (form.notes.data or "").strip()
+        # Length Check
+        if notes_raw and len(notes_raw) > 500:
+            flash('"Notes" too long! Max length 500')
+            return redirect(url_for('main.task_edit', id=id))
+        
+        notes = notes_raw if notes_raw else None
+
+        # Updating task
+        task_to_edit.title = title
+        task_to_edit.notes = notes
+        task_to_edit.due_date = due_date
+        task_to_edit.due_time = due_time
+
+        # Updating db
+        try:
+            db.session.commit()
+            flash('Task Updated!')
+            if admin_user:
+                return redirect(url_for('main.admin_dashboard'))
+            else:
+                return redirect(url_for('main.user_dashboard'))
+        except:
+            db.session.rollback()
+            flash('Update failed! Try again...')
+            if admin_user:
+                return redirect(url_for('main.admin_dashboard'))
+            else:
+                return redirect(url_for('main.user_dashboard'))
+    
+    # Populate form with existing task data
+    if request.method == "GET":
+        form.title.data = task_to_edit.title
+        form.notes.data = task_to_edit.notes
+        form.due_date.data = task_to_edit.due_date
+        form.due_time.data = task_to_edit.due_time
+
+    return render_template('/tasks/task_edit.html', form=form, delete_form=delete_form, id=id)
+
 
 # Deletion
-@main_bp.route('/user/task/delete')
-def task_delete():
-    return True
+@main_bp.route('/user/task/delete/<int:id>', methods=["POST"])
+@login_required
+def task_delete(id):
+    task_to_delete = Tasks.query.get_or_404(id)
+    admin_user = False
+    
+    # Checking if admin user
+    if current_user.id == 1:
+        admin_user = True
+
+    if task_to_delete.user_id != current_user.id and not admin_user:
+        flash("You are not allowed to access this task.")
+        return redirect(url_for('main.user_dashboard'))
+    
+    try:
+        db.session.delete(task_to_delete)
+        db.session.commit()
+        flash('Task Deleted!')
+        if admin_user:
+            return redirect(url_for('main.admin_dashboard'))
+        else:
+            return redirect(url_for('main.user_dashboard'))
+        
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Task Deletion Failed! | Error: {e}')
+        if admin_user:
+            return redirect(url_for('main.admin_dashboard'))
+        else:
+            return redirect(url_for('main.user_dashboard'))
 

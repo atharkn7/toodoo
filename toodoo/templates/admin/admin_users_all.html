@@ -1,11 +1,8 @@
-{% extends "users/user_home.html" %}
+{% extends "admin/admin_dashboard.html" %}
 
-{% block content %}
+{% block admin_content %}
 
-<div class="container p-4 shadow-lg">
-    <h3>ADMIN PAGE</h3>
-    <hr>
-
+<div class="container">
     <!-- Flex container for cards -->
     <div class="d-flex flex-wrap gap-3">
         {% for user in users %}
@@ -31,7 +28,7 @@
     </div>
 
     <hr>
-    <a class="btn btn-secondary" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('main.admin_dashboard') }}">Back</a>
 </div>
 
 

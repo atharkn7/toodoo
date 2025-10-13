@@ -17,17 +17,8 @@
                 <!-- DROPDOWN -->
                 <!-- Admin Routes -->
                 {% if current_user.id == 1 %}
-                <li class="nav-item dropdown me-4">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Admin
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
-                        <li><a class="dropdown-item" href="{{ url_for('main.admin_dashboard') }}">Dashboard</a>
-                        </li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.admin_manage_users') }}">Manage Users</a>
-                        </li>
-                    </ul>
+                <li class="nav-item me-4">
+                    <a class="nav-link" href="{{ url_for('main.admin_dashboard') }}">Admin</a>
                 </li>
                 {% endif %}
 
@@ -42,12 +33,6 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-glass">
                         <li><a class="dropdown-item" href="{{ url_for('main.task_create') }}">Create</a>
-                        </li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.task_list') }}">View all Tasks</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ url_for('main.task_delete', id=current_user.id) }}">
-                                Maybe Delete</a>
                         </li>
                     </ul>
                 </li>
@@ -83,7 +68,7 @@
 
                         <!-- Logout option -->
                         <li>
-                            <a class="dropdown-item text-warning" href="url_for('main.user_logout')">
+                            <a class="dropdown-item text-warning" href="{{ url_for('main.user_logout') }}">
                                 <i class="bi bi-box-arrow-right me-2"></i>Logout
                             </a>
                         </li>
