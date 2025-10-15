@@ -9,3 +9,66 @@ body {
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
+
+
+/* ACCORDIAN STYLING */
+
+/* Collapsed state */
+.accordion-button {
+    background-color: #f0f0f0;
+    /* your desired color */
+    color: #333;
+    /* text color */
+}
+
+/* Expanded state */
+.accordion-button:not(.collapsed) {
+    background-color: #ffcc00;
+    /* color when expanded */
+    color: #000;
+}
+
+
+/* TABLES STYLING */
+.fixed-table {
+    table-layout: fixed;
+    /* makes column widths respect our widths */
+    width: 100%;
+}
+
+.fixed-table th,
+.fixed-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Assign relative widths */
+.fixed-table .col-index {
+    width: 5%;
+}
+
+.fixed-table .col-title {
+    width: 30%;
+}
+
+.fixed-table .col-notes {
+    width: 40%;
+}
+
+.fixed-table .col-time {
+    width: 15%;
+}
+
+.fixed-table .col-actions {
+    width: 10%;
+}
+
+/* Optional: on smaller screens, allow wrapping */
+@media (max-width: 768px) {
+
+    .fixed-table th,
+    .fixed-table td {
+        white-space: normal;
+    }
+}

@@ -4,6 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
 from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass, CreateTask
 from .models import Users, Tasks, generate_password_hash, check_password_hash
+from .helpers import get_due_status
 
 # Creates the main blueprint that gets sent to init
 main_bp = Blueprint('main', __name__)
@@ -289,13 +290,17 @@ def task_detail(id):
 # View all tasks
 @main_bp.route('/user/tasks')
 @login_required
-def task_list():
-    #TODO: Show all past and future tasks
-    tasks = Tasks.query.filter_by(user_id=current_user.id).order_by(Tasks.due_date.asc()).all()
-
-    pending_tasks = Tasks.query.filter(Tasks.due_date<date.today()).all()
+def task_list():    
+    # Grouping by duedate
+    pending_tasks = Tasks.query.filter(Tasks.due_date<date.today()).order_by(Tasks.due_date.asc()).all()
     todays_tasks = Tasks.query.filter(Tasks.due_date==date.today()).all()
-    upcoming_tasks = Tasks.query.filter(Tasks.due_date>date.today()).all()
+    upcoming_tasks = Tasks.query.filter(Tasks.due_date>date.today()).order_by(Tasks.due_date.asc()).all()
+    
+
+    # Adding due_status by due_date
+    for task in pending_tasks + todays_tasks + upcoming_tasks:
+        task.task_status = get_due_status(task)
+
 
     return render_template('tasks/task_list.html', 
                            todays_tasks=todays_tasks, 
