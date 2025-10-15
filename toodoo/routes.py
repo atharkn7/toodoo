@@ -293,7 +293,14 @@ def task_list():
     #TODO: Show all past and future tasks
     tasks = Tasks.query.filter_by(user_id=current_user.id).order_by(Tasks.due_date.asc()).all()
 
-    return render_template('tasks/task_list.html', tasks=tasks)
+    pending_tasks = Tasks.query.filter(Tasks.due_date<date.today()).all()
+    todays_tasks = Tasks.query.filter(Tasks.due_date==date.today()).all()
+    upcoming_tasks = Tasks.query.filter(Tasks.due_date>date.today()).all()
+
+    return render_template('tasks/task_list.html', 
+                           todays_tasks=todays_tasks, 
+                           pending_tasks=pending_tasks,
+                           upcoming_tasks=upcoming_tasks)
 
 
 # Update

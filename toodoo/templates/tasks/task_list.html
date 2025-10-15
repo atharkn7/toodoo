@@ -2,14 +2,17 @@
 
 {% block user_content %}
 
-{% if tasks %}
+
 <div class="d-flex justify-content-end me-2 mb-2">
     <a class="btn btn-outline-success btn-sm px-4" href="{{ url_for('main.task_create') }}">
         Add
     </a>
 </div>
 
-<!-- All tasks -->
+<!-- Today's  -->
+<br>
+<h5>Today's Tasks</h5>
+<hr>
 <table class="table table-hover align-middle mb-0">
     <thead class="bg-warning-subtle text-warning border-bottom border-warning">
         <tr>
@@ -22,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for task in tasks %}
+        {% for task in todays_tasks %}
         <tr>
             <th scope="row" class="text-warning">{{ loop.index }}</th>
             <td>{{ task.title }}</td>
@@ -35,8 +38,72 @@
         {% endfor %}
     </tbody>
 </table>
-{% else %}
+
+<!-- PENDING TASKS -->
+<br>
+<h5>Pending Tasks</h5>
+<hr>
+<table class="table table-hover align-middle mb-0">
+    <thead class="bg-warning-subtle text-warning border-bottom border-warning">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Due Time</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in pending_tasks %}
+        <tr>
+            <th scope="row" class="text-warning">{{ loop.index }}</th>
+            <td>{{ task.title }}</td>
+            <td class="text-secondary">{{ task.notes or "No notes" }}</td>
+            <td>{{ task.due_date.strftime("%Y-%m-%d") }}</td>
+            <td>{{ task.due_time.strftime("%H:%M") if task.due_time else "—" }}</td>
+            <td><a href="{{ url_for('main.task_edit', id=task.task_id) }}"
+                    class="btn btn-outline-secondary btn-sm">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Today's  -->
+<br>
+<h5>Upcoming Tasks</h5>
+<hr>
+<table class="table table-hover align-middle mb-0">
+    <thead class="bg-warning-subtle text-warning border-bottom border-warning">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Due Time</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in upcoming_tasks %}
+        <tr>
+            <th scope="row" class="text-warning">{{ loop.index }}</th>
+            <td>{{ task.title }}</td>
+            <td class="text-secondary">{{ task.notes or "No notes" }}</td>
+            <td>{{ task.due_date.strftime("%Y-%m-%d") }}</td>
+            <td>{{ task.due_time.strftime("%H:%M") if task.due_time else "—" }}</td>
+            <td><a href="{{ url_for('main.task_edit', id=task.task_id) }}"
+                    class="btn btn-outline-secondary btn-sm">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- 
+<br>
+<h5>LOGIC HERE</h5>
+<hr>
 <p class="text-center my-3 text-warning-emphasis">No tasks yet.</p>
-{% endif %}
+-->
 
 {% endblock %}
