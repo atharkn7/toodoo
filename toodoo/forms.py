@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, StringField, PasswordField, SubmitField, DateField, TimeField, TextAreaField
+from wtforms import EmailField, StringField, PasswordField, SubmitField, DateField, TimeField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo
 
 """ USER FORMS """
@@ -44,3 +44,7 @@ class CreateTask(FlaskForm):
     due_date = DateField('Date', format='%Y-%m-%d', validators=[])
     due_time = TimeField('Time', format='%H:%M', validators=[])
     submit = SubmitField('Add')
+
+
+class CompleteForm(FlaskForm):
+    complete = BooleanField('')

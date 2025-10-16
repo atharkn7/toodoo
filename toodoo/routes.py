@@ -2,7 +2,7 @@ from datetime import date, time
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from toodoo import db
-from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass, CreateTask
+from .forms import LoginForm, RegisterForm, DeleteForm, EditUser, UpdateUserPass, CreateTask, CompleteForm
 from .models import Users, Tasks, generate_password_hash, check_password_hash
 from .helpers import get_due_status
 
@@ -296,6 +296,8 @@ def task_detail(id):
 @main_bp.route('/user/tasks')
 @login_required
 def task_list():    
+    form = CompleteForm()
+    
     # Grouping by duedate
     pending_tasks = Tasks.query.filter(
         Tasks.due_date<date.today()
@@ -330,7 +332,8 @@ def task_list():
                            todays_tasks=todays_tasks, 
                            pending_tasks=pending_tasks,
                            upcoming_tasks=upcoming_tasks,
-                           completed_tasks=completed_tasks)
+                           completed_tasks=completed_tasks, 
+                           form=form)
 
 
 # Update
@@ -406,7 +409,24 @@ def task_edit(id):
 @main_bp.route('/user/tasks/complete/<int:id>', methods=["POST"])
 @login_required
 def task_complete(id):
-    return True
+    task_to_complete = Tasks.query.get_or_404(id)
+    
+    if task_to_complete.user_id != current_user.id:
+        flash("You are not allowed to access this task.")
+        return redirect(url_for('main.user_dashboard'))
+    
+    # Updating Task
+    task_to_complete.completed_on = date.today()
+    task_to_complete.is_completed = True
+
+    try:
+        db.session.commit()
+        return redirect(url_for('main.user_dashboard'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Completion Failed as - {e}')
+        return redirect(url_for('main.user_dashboard'))
+
 
 # Deletion
 @main_bp.route('/user/task/delete/<int:id>', methods=["POST"])
@@ -439,4 +459,3 @@ def task_delete(id):
             return redirect(url_for('main.admin_manage_tasks'))
         else:
             return redirect(url_for('main.user_dashboard'))
-

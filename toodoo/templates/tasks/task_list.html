@@ -31,8 +31,8 @@
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
-                            <th class="col-index">#</th>
-                            <th class="col-title">Title</th>
+                            <th class="col-index"></th>
+                            <th class="col-title">Tasks</th>
                             <th class="col-status"></th>
                             <th class="col-actions"></th>
                         </tr>
@@ -40,9 +40,17 @@
                     <tbody>
                         {% for task in todays_tasks %}
                         <tr class="clickable-row" data-href="{{ url_for('main.task_detail', id=task.task_id) }}">
-                            <th scope="row" class="text-warning">{{ loop.index }}</th>
+                            <th scope="row" class="text-center">
+                                <form method="POST" action="{{ url_for('main.task_complete', id=task.task_id) }}"
+                                    class="d-inline-block m-0 p-0">
+                                    {{ form.csrf_token }}
+                                    {{ form.complete(onclick="event.stopPropagation(); this.form.submit();",
+                                    style="transform: scale(1.5);") }}
+                                </form>
+                            </th>
                             <td>{{ task.title }}</td>
                             <td></td>
+
                             <td>
                                 <a href="{{ url_for('main.task_edit', id=task.task_id) }}"
                                     class="btn btn-outline-secondary btn-sm" onclick="event.stopPropagation();">Edit</a>
@@ -73,7 +81,7 @@
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
-                            <th class="col-index">#</th>
+                            <th class="col-index"></th>
                             <th class="col-title">Title</th>
                             <th class="col-status">Pending For</th>
                             <th class="col-actions"></th>
@@ -82,7 +90,14 @@
                     <tbody>
                         {% for task in pending_tasks %}
                         <tr class="clickable-row" data-href="{{ url_for('main.task_detail', id=task.task_id) }}">
-                            <th scope="row" class="text-warning">{{ loop.index }}</th>
+                            <th scope="row" class="text-center">
+                                <form method="POST" action="{{ url_for('main.task_complete', id=task.task_id) }}"
+                                    class="d-inline-block m-0 p-0">
+                                    {{ form.csrf_token }}
+                                    {{ form.complete(onclick="event.stopPropagation(); this.form.submit();",
+                                    style="transform: scale(1.5);") }}
+                                </form>
+                            </th>
                             <td>{{ task.title }}</td>
                             <td class="text-danger">{{ task.task_status }}</td>
                             <td><a href="{{ url_for('main.task_edit', id=task.task_id) }}"
@@ -114,7 +129,7 @@
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
-                            <th class="col-index">#</th>
+                            <th class="col-index"></th>
                             <th class="col-title">Title</th>
                             <th class="col-status">Due In</th>
                             <th class="col-actions"></th>
@@ -123,11 +138,18 @@
                     <tbody>
                         {% for task in upcoming_tasks %}
                         <tr class="clickable-row" data-href="{{ url_for('main.task_detail', id=task.task_id) }}">
-                            <th scope="row" class="text-warning">{{ loop.index }}</th>
+                            <th scope="row" class="text-center">
+                                <form method="POST" action="{{ url_for('main.task_complete', id=task.task_id) }}"
+                                    class="d-inline-block m-0 p-0">
+                                    {{ form.csrf_token }}
+                                    {{ form.complete(onclick="event.stopPropagation(); this.form.submit();",
+                                    style="transform: scale(1.5);") }}
+                                </form>
+                            </th>
                             <td>{{ task.title }}</td>
                             <td>{{ task.task_status }}</td>
                             <td>
-                                <aa href="{{ url_for('main.task_edit', id=task.task_id) }}"
+                                <a href="{{ url_for('main.task_edit', id=task.task_id) }}"
                                     class="btn btn-outline-secondary btn-sm" onclick="event.stopPropagation();">Edit</a>
                             </td>
                         </tr>
@@ -156,9 +178,9 @@
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
-                            <th class="col-index">#</th>
+                            <th class="col-index"></th>
                             <th class="col-title">Title</th>
-                            <th class="col-status">Due In</th>
+                            <th class="col-status">Completed</th>
                             <th class="col-actions"></th>
                         </tr>
                     </thead>
@@ -167,11 +189,8 @@
                         <tr class="clickable-row" data-href="{{ url_for('main.task_detail', id=task.task_id) }}">
                             <th scope="row" class="text-warning">{{ loop.index }}</th>
                             <td>{{ task.title }}</td>
-                            <td>{{ task.task_status }}</td>
-                            <td>
-                                <aa href="{{ url_for('main.task_edit', id=task.task_id) }}"
-                                    class="btn btn-outline-secondary btn-sm" onclick="event.stopPropagation();">Edit</a>
-                            </td>
+                            <td>{{ task.completed_on.strftime('%a, %b %d') }}</td>
+                            <td></td>
                         </tr>
                         {% endfor %}
                     </tbody>
