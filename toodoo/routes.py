@@ -303,6 +303,8 @@ def task_list():
         Tasks.due_date<date.today()
         ).filter(
             Tasks.is_completed==False
+        ).filter(
+            Tasks.user_id==current_user.id
         ).order_by(
             Tasks.due_date.asc()
             ).all()
@@ -311,17 +313,25 @@ def task_list():
         Tasks.due_date==date.today()
         ).filter(
             Tasks.is_completed==False
+            ).filter(
+            Tasks.user_id==current_user.id
             ).all()
     
     upcoming_tasks = Tasks.query.filter(
         Tasks.due_date>date.today()
         ).filter(
             Tasks.is_completed==False
+        ).filter(
+            Tasks.user_id==current_user.id
         ).order_by(
             Tasks.due_date.asc()
             ).all()
     
-    completed_tasks = Tasks.query.filter(Tasks.is_completed==True).order_by(Tasks.due_date.asc()).all()
+    completed_tasks = Tasks.query.filter(
+        Tasks.is_completed==True
+        ).filter(
+            Tasks.user_id==current_user.id
+        ).order_by(Tasks.due_date.asc()).all()
 
     # Adding due_status by due_date
     for task in pending_tasks + todays_tasks + upcoming_tasks:
