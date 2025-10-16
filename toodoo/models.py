@@ -45,6 +45,6 @@ class Tasks(db.Model):
     due_date = db.Column(db.Date, nullable=False)
     due_time = db.Column(db.Time, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # created_at
-    # completed_at
-    # is_completed
+    created_on = db.Column(db.Date, nullable=False, default=datetime.now)
+    completed_on = db.Column(db.Date, nullable=True)
+    is_completed = db.Column(db.Boolean, nullable=False, default=False)

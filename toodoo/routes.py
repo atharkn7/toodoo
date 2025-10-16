@@ -297,10 +297,29 @@ def task_detail(id):
 @login_required
 def task_list():    
     # Grouping by duedate
-    pending_tasks = Tasks.query.filter(Tasks.due_date<date.today()).order_by(Tasks.due_date.asc()).all()
-    todays_tasks = Tasks.query.filter(Tasks.due_date==date.today()).all()
-    upcoming_tasks = Tasks.query.filter(Tasks.due_date>date.today()).order_by(Tasks.due_date.asc()).all()
+    pending_tasks = Tasks.query.filter(
+        Tasks.due_date<date.today()
+        ).filter(
+            Tasks.is_completed==False
+        ).order_by(
+            Tasks.due_date.asc()
+            ).all()
     
+    todays_tasks = Tasks.query.filter(
+        Tasks.due_date==date.today()
+        ).filter(
+            Tasks.is_completed==False
+            ).all()
+    
+    upcoming_tasks = Tasks.query.filter(
+        Tasks.due_date>date.today()
+        ).filter(
+            Tasks.is_completed==False
+        ).order_by(
+            Tasks.due_date.asc()
+            ).all()
+    
+    completed_tasks = Tasks.query.filter(Tasks.is_completed==True).order_by(Tasks.due_date.asc()).all()
 
     # Adding due_status by due_date
     for task in pending_tasks + todays_tasks + upcoming_tasks:
@@ -310,7 +329,8 @@ def task_list():
     return render_template('tasks/task_list.html', 
                            todays_tasks=todays_tasks, 
                            pending_tasks=pending_tasks,
-                           upcoming_tasks=upcoming_tasks)
+                           upcoming_tasks=upcoming_tasks,
+                           completed_tasks=completed_tasks)
 
 
 # Update
@@ -381,6 +401,12 @@ def task_edit(id):
 
     return render_template('/tasks/task_edit.html', form=form, delete_form=delete_form, id=id)
 
+
+# Complete Task
+@main_bp.route('/user/tasks/complete/<int:id>', methods=["POST"])
+@login_required
+def task_complete(id):
+    return True
 
 # Deletion
 @main_bp.route('/user/task/delete/<int:id>', methods=["POST"])
