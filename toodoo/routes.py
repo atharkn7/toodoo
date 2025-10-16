@@ -402,7 +402,7 @@ def task_delete(id):
         db.session.commit()
         flash('Task Deleted!')
         if admin_user:
-            return redirect(url_for('main.admin_dashboard'))
+            return redirect(url_for('main.admin_manage_tasks'))
         else:
             return redirect(url_for('main.user_dashboard'))
         
@@ -410,7 +410,7 @@ def task_delete(id):
         db.session.rollback()
         flash(f'Task Deletion Failed! | Error: {e}')
         if admin_user:
-            return redirect(url_for('main.admin_dashboard'))
+            return redirect(url_for('main.admin_manage_tasks'))
         else:
             return redirect(url_for('main.user_dashboard'))
 

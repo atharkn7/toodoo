@@ -27,6 +27,7 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body custom-accordion-body">
+                {% if todays_tasks %}
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
@@ -50,6 +51,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <br>
+                <p class="text-center fw-lighter fst-italic">No tasks yet...</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -64,6 +69,7 @@
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body custom-accordion-body">
+                {% if pending_tasks %}
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
@@ -86,6 +92,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <br>
+                <p class="text-center fw-lighter fst-italic">No tasks yet...</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -100,6 +110,7 @@
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body custom-accordion-body">
+                {% if upcoming_tasks %}
                 <table class="table table-hover align-middle fixed-table">
                     <thead class="table-header">
                         <tr>
@@ -123,6 +134,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <br>
+                <p class="text-center fw-lighter fst-italic">No tasks yet...</p>
+                {% endif %}
             </div>
         </div>
     </div>
