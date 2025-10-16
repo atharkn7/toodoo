@@ -283,8 +283,13 @@ def task_create():
 @main_bp.route('/user/tasks/<int:id>')
 @login_required
 def task_detail(id):
-    # Might consider adding that as a dropdown when clicking a task
-    return True
+    task = Tasks.query.get_or_404(id)
+
+    try:
+        return render_template('tasks/task_detail.html', task=task)
+    except Exception as e:
+        flash(f'Error getting task details - {e}')
+        return redirect(url_for('main.user_dashboard'))
 
 
 # View all tasks

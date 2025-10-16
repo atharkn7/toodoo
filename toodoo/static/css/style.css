@@ -11,28 +11,69 @@ body {
 }
 
 
-/* ACCORDIAN STYLING */
-
-/* Collapsed state */
-.accordion-button {
-    background-color: #f0f0f0;
-    /* your desired color */
-    color: #333;
-    /* text color */
+/* Reuse from task detail */
+.card-header.custom-yellow {
+    background-color: #fff8dc;
+    color: #5a4d00;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #f0e6a2;
 }
 
-/* Expanded state */
-.accordion-button:not(.collapsed) {
-    background-color: #ffcc00;
-    /* color when expanded */
-    color: #000;
+.page-header {
+    border-bottom: 1px solid #f3f3f3;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
+.page-header h4 {
+    color: #6c5b00;
+    display: flex;
+    align-items: center;
+}
 
-/* TABLES STYLING */
+.page-header i {
+    color: #d4a000;
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+}
+
+/* Accordion styling — unified look */
+.custom-accordion-item {
+    border: none;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.custom-accordion-header {
+    background-color: #fff8dc;
+    color: #5a4d00;
+    font-weight: 600;
+}
+
+.accordion-button:not(.collapsed).custom-accordion-header {
+    background-color: #ffe680;
+    color: #4d3c00;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.custom-accordion-body {
+    background-color: #fffef8;
+}
+
+/* Table header styling — matches yellow tone */
+.table-header {
+    background-color: #fff8dc;
+    color: #5a4d00;
+    font-weight: 600;
+    border-bottom: 2px solid #f0e6a2;
+}
+
+/* Table layout reuse */
 .fixed-table {
     table-layout: fixed;
-    /* makes column widths respect our widths */
     width: 100%;
 }
 
@@ -43,20 +84,16 @@ body {
     white-space: nowrap;
 }
 
-/* Assign relative widths */
+/* Column widths */
 .fixed-table .col-index {
     width: 5%;
 }
 
 .fixed-table .col-title {
-    width: 30%;
+    width: 70%;
 }
 
-.fixed-table .col-notes {
-    width: 40%;
-}
-
-.fixed-table .col-time {
+.fixed-table .col-status {
     width: 15%;
 }
 
@@ -64,11 +101,11 @@ body {
     width: 10%;
 }
 
-/* Optional: on smaller screens, allow wrapping */
-@media (max-width: 768px) {
+/* Clickable rows */
+.clickable-row {
+    cursor: pointer;
+}
 
-    .fixed-table th,
-    .fixed-table td {
-        white-space: normal;
-    }
+.clickable-row:hover {
+    background-color: #fff7d1 !important;
 }
