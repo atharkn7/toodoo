@@ -12,11 +12,8 @@ body {
 
 
 /* Reuse from task detail */
-.card-header.custom-yellow {
+.card-header {
     background-color: #fff8dc;
-    color: #5a4d00;
-    font-weight: 600;
-    font-size: 1.1rem;
     border-bottom: 2px solid #f0e6a2;
 }
 
@@ -54,8 +51,8 @@ body {
 }
 
 .accordion-button:not(.collapsed).custom-accordion-header {
-    background-color: #ffe680;
-    color: #4d3c00;
+    background-color: #ffc107 !important;
+    color: #212529;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -101,11 +98,15 @@ body {
     width: 10%;
 }
 
-/* Clickable rows */
+/* ------------
+Clickable rows
+-------------- */
+
 .clickable-row {
     cursor: pointer;
 }
 
 .clickable-row:hover {
-    background-color: #fff7d1 !important;
+    background-color: #ffe082 !important;
+    /* lighter variant of bg-warning */
 }
